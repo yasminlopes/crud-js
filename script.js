@@ -35,6 +35,11 @@ const updateClient = (index, client) => {
   setLocalStorage(db_client);
 };
 /* Delete */
+const deleteClient = (index) => {
+  const db_client = readClient();
+  db_client.splice(index, 1);
+  setLocalStorage(db_client); // Manda para o banco
+};
 
 // Eventos
 document
