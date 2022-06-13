@@ -7,8 +7,8 @@ const closeModal = () =>
   document.getElementById("modal").classList.remove("active");
 
 const tempClient = {
-  nome: "Yasmin",
-  email: "yasmin@email.com",
+  nome: "Maria Paula",
+  email: "bipolar@email.com",
   celular: "14999999990",
   cidade: "Marília",
 };
@@ -29,8 +29,10 @@ const createClient = (client) => {
 /* Read */
 const readClient = () => getLocaStorage();
 /* Update */
-const updateClient = (client) => {
+const updateClient = (index, client) => {
   const db_client = readClient();
+  db_client[index] = client;
+  setLocalStorage(db_client);
 };
 /* Delete */
 
