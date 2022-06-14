@@ -55,7 +55,7 @@ const clearFields = () => {
   camposForm.forEach((camposForm) => (camposForm.value = ""));
 };
 /* Dados preenchidos do form sendo enviados ao banco de dados atráves do ID*/
-const saveProduct = () => {
+const salvarProduto = () => {
   if (isValidFields()) {
     const produto = {
       categoria: document.getElementById("categoria").value,
@@ -73,7 +73,6 @@ const saveProduct = () => {
       updateProduct(index, produto);
       updateTable();
       closeModal();
-      console.log("[INFO] Editando Produto!");
     }
   }
 };
@@ -149,7 +148,7 @@ document
   .addEventListener("click", openModal);
 
 document.getElementById("modalClose").addEventListener("click", closeModal);
-document.getElementById("btnSalvar").addEventListener("click", saveProduct);
+document.getElementById("btnSalvar").addEventListener("click", salvarProduto);
 document
   .querySelector("#tableProdutos>tbody")
   .addEventListener("click", editDelete);
