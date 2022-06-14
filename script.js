@@ -63,13 +63,22 @@ const saveProduct = () => {
       preco: document.getElementById("preco").value,
       quantidade: document.getElementById("quantidade").value,
     };
-    createProduct(produto);
-    console.log("[INFO] Produto Cadastrado com sucesso!");
-    closeModal();
+    const index = document.getElementById("categoria").dataset.index;
+    if (index == "new") {
+      createProduct(produto);
+      console.log("[INFO] Produto Cadastrado com sucesso!");
+      updateTable();
+      closeModal();
+    } else {
+      updateProduct(index, produto);
+      updateTable();
+      closeModal();
+      console.log("[INFO] Editando Produto!");
+    }
   }
 };
 // Trazendo dados preenchidos a tabela do Front
-const createRow = (produto) => {
+const createRow = (produto, index) => {
   const newRow = document.createElement("tr");
   newRow.innerHTML = `
       <td>${produto.categoria}</td>
@@ -77,8 +86,9 @@ const createRow = (produto) => {
       <td>R$ ${produto.preco}</td>
       <td>${produto.quantidade}</td>
       <td>
-          <button type="button" class="button green">Editar</button>
-          <button type="button" class="button red" >Excluir</button>
+          <button type="button" class="button green" id="edit-${index}">Editar</button>
+          <button type="button" class="button red"
+          id="delete-${index}">Excluir</button>
       </td>
   `;
   document.querySelector("#tableProdutos>tbody").appendChild(newRow);
@@ -88,11 +98,48 @@ const clearTable = () => {
   const rows = document.querySelectorAll("#tableProdutos>tbody tr");
   rows.forEach((row) => row.parentNode.removeChild(row));
 };
+
 //Atualizando
 const updateTable = () => {
   const db_produto = readProduct();
   clearTable();
   db_produto.forEach(createRow);
+};
+
+// Apagando e Editando pelos campos do Front
+const editProduto = (index) => {
+  const produto = readProduct()[index];
+  produto.index = index;
+  fillFields(produto);
+  openModal();
+};
+
+const fillFields = (produto) => {
+  document.getElementById("categoria").value = produto.categoria;
+  document.getElementById("nome").value = produto.nome;
+  document.getElementById("preco").value = produto.preco;
+  document.getElementById("quantidade").value = produto.quantidade;
+  document.getElementById("categoria").dataset.index = produto.index;
+};
+
+const editDelete = (event) => {
+  if (event.target.type == "button") {
+    const [action, index] = event.target.id.split("-");
+
+    if (action == "edit") {
+      editProduto(index);
+      console.log("[INFO] Produto alterado!");
+    } else {
+      const produto = readProduct()[index];
+      const response = confirm(
+        `Você quer mesmo excluir a categoria ${produto.categoria}?`
+      );
+      if (response) {
+        deleteProduct(index);
+        updateTable();
+      }
+    }
+  }
 };
 updateTable();
 
@@ -103,3 +150,7 @@ document
 
 document.getElementById("modalClose").addEventListener("click", closeModal);
 document.getElementById("btnSalvar").addEventListener("click", saveProduct);
+document
+  .querySelector("#tableProdutos>tbody")
+  .addEventListener("click", editDelete);
+document.getElementById("btnCancelar").addEventListener("click", closeModal);
