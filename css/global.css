@@ -44,3 +44,16 @@ main {
   background: #fff;
   gap: 20px;
 }
+
+@media (max-width: 480px) {
+  header {
+    position: fixed;
+    width: 100%;
+  }
+  main {
+    padding: 0;
+    margin: 20px 0 0 0;
+    width: 100%;
+    box-shadow: none;
+  }
+}

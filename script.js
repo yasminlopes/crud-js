@@ -5,11 +5,10 @@ const openModal = () =>
 
 const closeModal = () => {
   document.getElementById("modal").classList.remove("active");
-
   clearFields();
 };
 
-/*const tempClient = {
+/*const tempProduto = {
   categoria: "Televisão",
   nome: "TV Smart Samsung",
   preco: "2500",
@@ -85,9 +84,8 @@ const createRow = (produto, index) => {
       <td>R$ ${produto.preco}</td>
       <td>${produto.quantidade}</td>
       <td>
-          <button type="button" class="button green" id="edit-${index}">Editar</button>
-          <button type="button" class="button red"
-          id="delete-${index}">Excluir</button>
+      <button type="button" class="button green" id="edit-${index}"><i class="fa fa-edit"></i></button>
+      <button type="button" class="button red" id="delete-${index}"><i class="fa fa-trash"></i></button>
       </td>
   `;
   document.querySelector("#tableProdutos>tbody").appendChild(newRow);
@@ -130,9 +128,7 @@ const editDelete = (event) => {
       console.log("[INFO] Produto alterado!");
     } else {
       const produto = readProduct()[index];
-      const response = confirm(
-        `Você quer mesmo excluir a categoria ${produto.categoria}?`
-      );
+      const response = confirm(`Você quer mesmo excluir ${produto.nome}?`);
       if (response) {
         deleteProduct(index);
         updateTable();
@@ -144,7 +140,7 @@ updateTable();
 
 // Eventos
 document
-  .getElementById("cadastrarCliente")
+  .getElementById("cadastrarProduto")
   .addEventListener("click", openModal);
 
 document.getElementById("modalClose").addEventListener("click", closeModal);
