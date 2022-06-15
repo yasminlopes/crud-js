@@ -63,7 +63,8 @@ const salvarProduto = () => {
       quantidade: document.getElementById("quantidade").value,
     };
     const index = document.getElementById("categoria").dataset.index;
-    if (index == "new") {
+
+    if (!index) {
       createProduct(produto);
       console.log("[INFO] Produto Cadastrado com sucesso!");
       updateTable();
